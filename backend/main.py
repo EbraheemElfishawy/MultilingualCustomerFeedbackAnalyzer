@@ -12,7 +12,8 @@ from sqlalchemy.orm import sessionmaker
 
 from database import engine
 from models import Base, FeedbackDB
-
+from sqlalchemy.future import select
+from models import FeedbackDB  # make sure this is defined in models.py
 # ✅ DB config
 DATABASE_URL = "postgresql://postgres:postgres@db:5432/feedbackdb"
 async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
@@ -40,9 +41,9 @@ app = FastAPI()
 # ✅ Allow React dev server access
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174"],
+    allow_origins=["*"],  # Or specify exact origin like "http://localhost:5173"
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"],  # Allow POST, OPTIONS, etc.
     allow_headers=["*"],
 )
 
@@ -155,3 +156,11 @@ async def create_feedback(feedback: Feedback):
             "translated_text": parsed["translated_text"],
             "language": parsed["language"]
         }
+
+@app.get("/api/feedbacks")
+async def get_feedbacks():
+    print("📥 Fetching all feedbacks from the database...")
+    async with async_session() as session:
+        result = await session.execute(select(FeedbackDB))
+        feedbacks = result.scalars().all()
+        return [f.__dict__ for f in feedbacks]
