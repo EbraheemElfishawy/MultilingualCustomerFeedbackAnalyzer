@@ -1,20 +1,57 @@
-import httpx
-from fastapi import FastAPI, HTTPException
 import json
+import asyncio
+import httpx
+import asyncpg
+
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from models import Base
+
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import sessionmaker
+
 from database import engine
-from database import engine
-from models import Base
-import asyncio
-import asyncpg
-# ✅ Define this early at the top
+from models import Base, FeedbackDB
+
+# ✅ DB config
 DATABASE_URL = "postgresql://postgres:postgres@db:5432/feedbackdb"
+async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
+
+# ✅ Gemini config
+GEMINI_API_KEY = 'AIzaSyBPVAKIi3pH-RtJcLMMwHvwpfC4TBwaQxw'
+prompt = """
+The previous line is a feedback from a customer about a product. analyze this customer feedback:
+1. Detect the language.
+2. Translate to English.
+3. Classify sentiment as 'positive', 'negative', or 'neutral'.
+
+Return JSON only in a dict format to be handled by python in this format:
+
+[
+    "language": "...",
+    "translated_text": "...",
+    "sentiment": "..."
+]
+"""
+
+# ✅ FastAPI init
 app = FastAPI()
+
+# ✅ Allow React dev server access
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5174"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 async def root():
     return {"message": "🎉 Backend is running!"}
+
+
+# ✅ Database check and creation
 async def wait_for_db(max_retries=30, delay=2):
     for i in range(max_retries):
         try:
@@ -33,58 +70,37 @@ async def init_db():
         await conn.run_sync(Base.metadata.create_all)
 
 
-
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5174"],  # ✅ React dev server
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 @app.on_event("startup")
 async def startup():
     await init_db()
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
 
-# Pydantic model for feedback
+
+# ✅ Request model
 class Feedback(BaseModel):
     text: str
-    product: str = None  # Optional field for product
+    product: str = None
 
-# Your Gemini API key (replace this with your actual key)
-GEMINI_API_KEY = 'AIzaSyBPVAKIi3pH-RtJcLMMwHvwpfC4TBwaQxw'  # Replace with your actual Gemini API key
-prompt = f"""
-The previous line is a feedback from a customer about a product. analyze this customer feedback:
-1. Detect the language.
-2. Translate to English.
-3. Classify sentiment as 'positive', 'negative', or 'neutral'.
 
-Return JSON only in a dict format to be handled by python in this format:
-
-[
-    "language": "...",
-    "translated_text": "...",
-    "sentiment": "..."
-]
-"""
+# ✅ Helper to parse Gemini JSON
 def parse_gemini_output(json_string):
     try:
         data = json.loads(json_string)
         return data
     except json.JSONDecodeError:
         return {"error": "Invalid JSON format"}
+
+
+# ✅ Main API endpoint
 @app.post("/api/feedback")
 async def create_feedback(feedback: Feedback):
-    # Prepare the payload for Gemini Studio API
+    print(f"📥 Received feedback: {feedback.text}")
+
     payload = {
         "contents": [
             {
                 "parts": [
                     {
-                        "text": feedback.text + "\n" + prompt,  # Send the feedback text to Gemini
+                        "text": feedback.text + "\n" + prompt,
                     }
                 ]
             }
@@ -93,10 +109,9 @@ async def create_feedback(feedback: Feedback):
 
     headers = {
         "Content-Type": "application/json",
-        "X-goog-api-key": GEMINI_API_KEY  # Use your API key for authorization
+        "X-goog-api-key": GEMINI_API_KEY
     }
 
-    # Make the request to Gemini Studio API
     async with httpx.AsyncClient() as client:
         response = await client.post(
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
@@ -104,24 +119,39 @@ async def create_feedback(feedback: Feedback):
             headers=headers
         )
 
-        # Check if the request was successful
         if response.status_code != 200:
+            print(f"❌ Gemini API error: {response.text}")
             raise HTTPException(status_code=response.status_code, detail="Error with Gemini API")
 
-        # Process the response from Gemini
         data = response.json()
-        jsonData = data.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "No sentiment found")
-        language = "Detected"  # Since Gemini is handling language detection
-        # Remove the ```json and ``` markers
-        json_string = jsonData.replace("```json", "").replace("```", "").strip()
-        parsed_data = parse_gemini_output(json_string)
-        print(jsonData)
-        print(parsed_data)
-        return {
-            "message": "Feedback received and processed",
-            "feedback": feedback.dict(),
-            "sentiment": parsed_data["sentiment"],
-            "translated_text": parsed_data["translated_text"],
-            "language": parsed_data["language"]
-        }
+        raw = data.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+        print(f"📤 Gemini raw output:\n{raw}")
 
+        # Clean and parse the response
+        json_string = raw.replace("```json", "").replace("```", "").strip()
+        parsed = parse_gemini_output(json_string)
+        print(f"✅ Parsed Gemini result: {parsed}")
+
+        if "error" in parsed:
+            raise HTTPException(status_code=500, detail="Gemini response was invalid")
+
+        # ✅ Save to database
+        async with async_session() as session:
+            new_feedback = FeedbackDB(
+                text=feedback.text,
+                product=feedback.product,
+                sentiment=parsed["sentiment"],
+                language=parsed["language"]
+            )
+            session.add(new_feedback)
+            await session.commit()
+            print("✅ Feedback saved to database")
+
+        return {
+            "message": "Feedback received and stored",
+            "original": feedback.text,
+            "product": feedback.product,
+            "sentiment": parsed["sentiment"],
+            "translated_text": parsed["translated_text"],
+            "language": parsed["language"]
+        }
