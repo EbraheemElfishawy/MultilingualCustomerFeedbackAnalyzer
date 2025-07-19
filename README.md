@@ -62,7 +62,11 @@ GEMINI_API_KEY = 'YOUR_KEY_HERE'
 ```bash
 docker-compose up --build
 ```
-
+ Build frontend only 
+```bash
+docker compose build frontend
+docker compose up -d frontend
+```
 This will start:
 - React app on [`http://localhost:5174`](http://localhost:5174)
 - FastAPI backend on [`http://localhost:8000`](http://localhost:8000)

@@ -24,9 +24,10 @@ prompt = """
 The previous line is a feedback from a customer about a product. analyze this customer feedback:
 1. Detect the language.
 2. Translate to English.
-3. Classify sentiment as 'positive', 'negative', or 'neutral'.
+3. Classify sentiment as 'positive', 'negative', 'neutral' or 'NA'.
 
 Return JSON only in a dict format to be handled by python in this format:
+if the feedback is not a feedback like Good morning or any other sentence or unknown text, return NA for all fields.
 
 [
     "language": "...",
