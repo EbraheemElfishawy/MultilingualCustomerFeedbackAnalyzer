@@ -64,9 +64,23 @@ function FeedbackForm() {
   };
 
   return (
-    <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+    <div className="container" style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
+      maxWidth: 420,
+      margin: '80px auto',
+      padding: 36,
+      borderRadius: 18,
+      background: '#fff',
+      boxShadow: '0 8px 32px rgba(80,120,180,0.10), 0 1.5px 2px rgba(120,140,160,0.03)',
+      fontFamily: 'Inter, Segoe UI, Arial, sans-serif',
+      minHeight: 420
+    }}>
       <img src={logo} alt="Logo" style={{ width: 120, height: 'auto', display: 'block', margin: '0 auto 16px auto' }} />
-      <h1 style={{ textAlign: 'center' }}>Customer Feedback</h1>
+      <h1 style={{ textAlign: 'center', fontWeight: 700, fontSize: 26, color: '#35409b', letterSpacing: 1, marginBottom: 18 }}>Customer Feedback</h1>
       <form onSubmit={handleSubmit} style={{ marginBottom: 24, width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ marginBottom: 12 }}>
           <label>
@@ -102,23 +116,26 @@ function FeedbackForm() {
           */}
         </div>
       )}
-      {/* Back button fixed at bottom left */}
+      {/* Back button at card bottom left */}
       <button
         onClick={handleBack}
         style={{
-          position: 'fixed',
+          position: 'absolute',
           left: 24,
           bottom: 24,
-          background: '#e0e0e0',
+          background: 'linear-gradient(90deg, #e0e0e0 60%, #f5fcff 100%)',
           color: '#35409b',
           border: 'none',
-          borderRadius: 6,
-          padding: '8px 18px',
+          borderRadius: 8,
+          padding: '10px 22px',
           fontWeight: 600,
           cursor: 'pointer',
-          fontSize: 15,
-          zIndex: 1000
+          fontSize: 16,
+          boxShadow: '0 2px 8px rgba(60,160,200,0.08)',
+          transition: 'background 0.18s',
         }}
+        onMouseOver={e => e.currentTarget.style.background = '#d0e6f6'}
+        onMouseOut={e => e.currentTarget.style.background = 'linear-gradient(90deg, #e0e0e0 60%, #f5fcff 100%)'}
       >
         ← Back
       </button>
