@@ -25,7 +25,7 @@ const Home = () => {
         marginBottom: 32, 
         fontFamily: 'Inter, Arial, sans-serif' }}
         >
-          Welcome to Customer Feedback Analyzer</h1>
+          Welcome to Customer Feedback</h1>
       <div style={{ display: 'flex', gap: 15 }}>
         <button
           onClick={() => navigate('/feedback')}

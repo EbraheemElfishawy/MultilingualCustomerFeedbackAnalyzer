@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import '../index.css';
 import logo from '../assets/logo.png';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 // Simple CSS spinner (add this to your CSS, or use a component library)
 const spinnerStyle = {
   width: 18,
@@ -22,7 +21,7 @@ const spinnerStyle = {
   100% { transform: rotate(360deg); }
 }
 */
-const [loading, setLoading] = useState(false);
+
 function FeedbackForm() {
   const [feedback, setFeedback] = useState('');
   const [product, setProduct] = useState('Smart Watch'); // Or default to first product
@@ -52,25 +51,23 @@ function FeedbackForm() {
 
       const data = await res.json();
       setResponse(data);
-      toast.success("Feedback submitted!");
     } catch (err) {
       console.error(err);
-      toast.error("Submission failed. Try again.");
-    }finally {
+      setResponse({ message: 'Error submitting feedback' });
+    }
     setLoading(false);
-  }
   };
 
   return (
-    <div className="container">
-      <img src={logo} alt="Logo" className="logo" />
-      <h1>Customer Feedback Analyzer</h1>
+    <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <img src={logo} alt="Logo" style={{ width: 120, height: 'auto', display: 'block', margin: '0 auto 16px auto' }} />
+      <h1 style={{ textAlign: 'center' }}>Customer Feedback</h1>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: 24 }}>
+      <form onSubmit={handleSubmit} style={{ marginBottom: 24, width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ marginBottom: 12 }}>
           <label>
-            Product:{' '}
-            <select value={product} onChange={e => setProduct(e.target.value)}>
+            Choose a Product:{' '}
+            <select value={product} onChange={e => setProduct(e.target.value)} style={{ width: '100%' }}>
               {products.map(p => (
                 <option key={p} value={p}>{p}</option>
               ))}
@@ -82,6 +79,7 @@ function FeedbackForm() {
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}
           rows={4}
+          style={{ width: '100%', marginBottom: 16, resize: 'vertical' }}
         />
         <button type="submit" disabled={loading} style={{ marginLeft: 10, minWidth: 110 }}>
           Submit
@@ -90,21 +88,17 @@ function FeedbackForm() {
       </form>
 
       {response && (
-        <div className="result">
+        <div className="result" style={{ textAlign: 'center', marginTop: 16 }}>
           <h2>Thanks!✨</h2>
           <p><strong>✅Your feedback is submitted! We really appreciate it!🎉</strong> </p>
-          {/* Add these lines if you want to show thew analysis result to the customer
+          {/* Add these lines if you want to show the analysis result to the customer
             <p><strong>Language:</strong> {response.language}</p>
             <p><strong>Sentiment:</strong> {response.sentiment}</p>
             <p><strong>Translation:</strong> {response.translated_text}</p>
           */}
         </div>
       )}
-    <button disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
-    <ToastContainer position="top-right" autoClose={1500} />
     </div>
-    
-    
   );
 }
 

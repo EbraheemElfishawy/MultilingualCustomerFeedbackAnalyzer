@@ -11,8 +11,9 @@ show_menu() {
   echo "3) Build & Run Both Frontend + Backend"
   echo "4) Rebuild & Restart All Containers"
   echo "5) Exit"
+  echo "6) Open psql shell in feedback-analyzer-db-1 container"
   echo "-------------------------------------"
-  read -p "Enter your choice [1-5]: " choice
+  read -p "Enter your choice [1-6]: " choice
 }
 
 run_frontend() {
@@ -49,6 +50,12 @@ restart_all() {
   docker compose up -d
 }
 
+open_psql_shell() {
+  echo "====================================="
+  echo "🔗 Opening psql shell in feedback-analyzer-db-1..."
+  docker exec -it feedback-analyzer-db-1 psql -U postgres -d feedbackdb
+}
+
 # Check for CLI param
 if [ -z "$1" ]; then
   show_menu
@@ -62,5 +69,6 @@ case $choice in
   3) run_both ;;
   4) restart_all ;;
   5) echo "👋 Exiting..."; exit 0 ;;
-  *) echo "❌ Invalid choice. Use 1–5."; exit 1 ;;
+  6) open_psql_shell ;;
+  *) echo "❌ Invalid choice. Use 1–6."; exit 1 ;;
 esac
