@@ -1,15 +1,21 @@
-import React from "react";
-import FeedbackForm from "./components/FeedbackForm.jsx";
-import FeedbackList from "./components/FeedbackList.jsx";
+import React from 'react';
+import FeedbackForm from './components/FeedbackForm';
+import FeedbackList from './components/FeedbackList';
+import AdminFeedbacks from './components/AdminFeedbacks';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <FeedbackForm />
-      <hr className="my-8" />
-      <FeedbackList />
-    </div>
+    <Router>
+      <nav style={{margin: 20}}>
+        <Link to="/">User Feedback</Link> | {' '}
+        <Link to="/admin">Admin Feedbacks</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<><FeedbackForm /><FeedbackList /></>} />
+        <Route path="/admin" element={<AdminFeedbacks />} />
+      </Routes>
+    </Router>
   );
 }
-
 export default App;

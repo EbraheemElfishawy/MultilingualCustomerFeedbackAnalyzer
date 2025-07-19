@@ -158,16 +158,22 @@ async def create_feedback(feedback: Feedback):
             "language": parsed["language"]
         }
 
+from fastapi import Query
+
 @app.get("/api/feedbacks")
-async def get_feedbacks(product: str = Query(None)):
-    print(f"📥 Fetching feedbacks. Filter by product: {product}")
+async def get_feedbacks(product: str = '', language: str = '', sentiment: str = ''):
     async with async_session() as session:
-        stmt = select(FeedbackDB)
+        query = select(FeedbackDB)
         if product:
-            stmt = stmt.where(FeedbackDB.product == product)
-        result = await session.execute(stmt)
+            query = query.where(FeedbackDB.product == product)
+        if language:
+            query = query.where(FeedbackDB.language == language)
+        if sentiment:
+            query = query.where(FeedbackDB.sentiment == sentiment)
+        result = await session.execute(query)
         feedbacks = result.scalars().all()
         return [f.__dict__ for f in feedbacks]
+
 
 
 @app.get("/api/products")
