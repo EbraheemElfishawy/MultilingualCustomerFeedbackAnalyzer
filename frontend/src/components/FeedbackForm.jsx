@@ -1,26 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../index.css';
 import logo from '../assets/logo.png';
 
 function FeedbackForm() {
   const [feedback, setFeedback] = useState('');
-  const [product, setProduct] = useState('Smart Watch');
+  const [product, setProduct] = useState('');
+  const [products, setProducts] = useState([]);
   const [response, setResponse] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/api/products');
+        const data = await res.json();
+        if (Array.isArray(data)) setProducts(data);
+      } catch (error) {
+        console.error("Failed to load products", error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const res = await fetch('http://localhost:8000/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: feedback, product }),
       });
-
       const data = await res.json();
       setResponse(data);
     } catch (err) {
-      console.error(err);
+      console.error('Submit failed', err);
       setResponse({ message: 'Error submitting feedback' });
     }
   };
@@ -28,21 +40,19 @@ function FeedbackForm() {
   return (
     <div className="container">
       <img src={logo} alt="Logo" className="logo" />
-      <h1>Customer Feedback to our products</h1>
+      <h1>Customer Feedback Analyzer</h1>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="product">Select a Product:  </label>
-        <select
-          id="product"
-          value={product}
-          onChange={(e) => setProduct(e.target.value)}
-        >
-          <option value="Smart Watch">Smart Watch</option>
-          <option value="AI Assistant">AI Assistant</option>
-          <option value="Mobile App">Mobile App</option>
-          <option value="Customer Portal">Customer Portal</option>
-        </select>
-
+        <label>
+          Product:
+          <select value={product} onChange={(e) => setProduct(e.target.value)}>
+            {products.map((p, i) => (
+              <option key={i} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
+        </label>
         <textarea
           placeholder="Enter your feedback here..."
           value={feedback}

@@ -6,7 +6,7 @@ import asyncpg
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi import Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
 
@@ -159,9 +159,17 @@ async def create_feedback(feedback: Feedback):
         }
 
 @app.get("/api/feedbacks")
-async def get_feedbacks():
-    print("📥 Fetching all feedbacks from the database...")
+async def get_feedbacks(product: str = Query(None)):
+    print(f"📥 Fetching feedbacks. Filter by product: {product}")
     async with async_session() as session:
-        result = await session.execute(select(FeedbackDB))
+        stmt = select(FeedbackDB)
+        if product:
+            stmt = stmt.where(FeedbackDB.product == product)
+        result = await session.execute(stmt)
         feedbacks = result.scalars().all()
         return [f.__dict__ for f in feedbacks]
+
+
+@app.get("/api/products")
+def get_products():
+    return ["Smart Watch", "AI Assistant", "Mobile App", "Laptop", "Headphones"]
