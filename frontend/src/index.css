@@ -58,3 +58,29 @@ form button:hover {
   border-radius: 10px;
 }
 
+.admin-feedbacks-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  overflow: hidden;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.admin-feedbacks-table th, .admin-feedbacks-table td {
+  border-bottom: 1px solid #eee;
+  padding: 16px 12px;
+  text-align: center;
+  font-size: 1.07rem;
+}
+
+.admin-feedbacks-table th {
+  background: #f6f7fb;
+  font-weight: 700;
+  color: #222d7b;
+}
+
+.admin-feedbacks-table tr:last-child td {
+  border-bottom: none;
+}

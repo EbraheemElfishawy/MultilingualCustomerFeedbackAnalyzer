@@ -46,7 +46,7 @@ function AdminFeedBacks() {
 
   return (
     <div className="admin-feedbacks-container" style={{ padding: 32, fontFamily: 'Inter, Arial, sans-serif' }}>
-      <h1 style={{ fontSize: '2rem', marginBottom: 24 }}>All Feedbacks (Admin View)</h1>
+      <h1 style={{ fontSize: '2rem', marginBottom: 24, color: '#4545a6' }}>All Feedbacks (Admin View)</h1>
 
       <div style={{ display: 'flex', gap: 16, marginBottom: 32 }}>
         {/* Product Filter */}
@@ -69,21 +69,14 @@ function AdminFeedBacks() {
         </select>
       </div>
 
-      <table style={{
-        width: '100%',
-        borderCollapse: 'collapse',
-        border: '1px solid #e0e0e0',
-        background: '#fff',
-        borderRadius: 12,
-        boxShadow: '0 2px 10px rgba(0,0,0,0.04)'
-      }}>
+      <table className="admin-feedbacks-table">
         <thead>
-          <tr style={{ background: '#f5f5f5' }}>
-            <th style={th}>ID</th>
-            <th style={th}>Product</th>
-            <th style={th}>Language</th>
-            <th style={th}>Sentiment</th>
-            <th style={th}>Text</th>
+          <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Language</th>
+            <th>Sentiment</th>
+            <th>Text</th>
           </tr>
         </thead>
         <tbody>
@@ -91,11 +84,11 @@ function AdminFeedBacks() {
             ? <tr><td colSpan={5} style={{ textAlign: 'center', padding: 24 }}>No feedbacks found.</td></tr>
             : feedbacks.map(f => (
                 <tr key={f.id}>
-                  <td style={td}>{f.id}</td>
-                  <td style={td}>{f.product}</td>
-                  <td style={td}>{f.language}</td>
-                  <td style={td}>{f.sentiment}</td>
-                  <td style={td}>{f.text}</td>
+                  <td>{f.id}</td>
+                  <td>{f.product}</td>
+                  <td>{f.language}</td>
+                  <td>{f.sentiment}</td>
+                  <td>{f.text}</td>
                 </tr>
               ))
           }
@@ -104,15 +97,5 @@ function AdminFeedBacks() {
     </div>
   );
 }
-
-const th = {
-  padding: '12px 8px',
-  fontWeight: 600,
-  borderBottom: '1px solid #ddd'
-};
-const td = {
-  padding: '12px 8px',
-  borderBottom: '1px solid #f0f0f0'
-};
 
 export default AdminFeedBacks;
