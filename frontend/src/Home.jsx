@@ -45,7 +45,7 @@ const Home = () => {
           Customer
         </button>
         <button
-          onClick={() => navigate('/admin')}
+          onClick={() => navigate('/admin-login')}
           style={{
             padding: '18px 40px',
             fontSize: '1.1rem',
@@ -59,7 +59,7 @@ const Home = () => {
             fontFamily: 'Inter, Arial, sans-serif'
           }}
         >
-          Admin (Login Required)
+          Admin🔒
         </button>
       </div>
     </div>
