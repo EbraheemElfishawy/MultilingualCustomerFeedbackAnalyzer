@@ -58,11 +58,15 @@ function FeedbackForm() {
     setLoading(false);
   };
 
+  const handleBack = () => {
+    // Navigate to home page
+    window.location.href = '/';
+  };
+
   return (
-    <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
       <img src={logo} alt="Logo" style={{ width: 120, height: 'auto', display: 'block', margin: '0 auto 16px auto' }} />
       <h1 style={{ textAlign: 'center' }}>Customer Feedback</h1>
-
       <form onSubmit={handleSubmit} style={{ marginBottom: 24, width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ marginBottom: 12 }}>
           <label>
@@ -98,6 +102,26 @@ function FeedbackForm() {
           */}
         </div>
       )}
+      {/* Back button fixed at bottom left */}
+      <button
+        onClick={handleBack}
+        style={{
+          position: 'fixed',
+          left: 24,
+          bottom: 24,
+          background: '#e0e0e0',
+          color: '#35409b',
+          border: 'none',
+          borderRadius: 6,
+          padding: '8px 18px',
+          fontWeight: 600,
+          cursor: 'pointer',
+          fontSize: 15,
+          zIndex: 1000
+        }}
+      >
+        ← Back
+      </button>
     </div>
   );
 }

@@ -35,10 +35,16 @@ function AdminLogin() {
 
   const isLocked = attempts >= 3;
 
+  // Handler for back button
+  const handleBack = () => {
+    navigate('/');
+  };
+
   return (
     <div style={{
       maxWidth: 400, margin: "80px auto", padding: 32, borderRadius: 12, background: "#fff",
-      boxShadow: "0 4px 24px rgba(0,0,0,0.10)"
+      boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
+      position: 'relative'
     }}>
       <h2 style={{ marginBottom: 24, color: "#35409b" }}>Admin Login</h2>
       <form onSubmit={handleLogin}>
@@ -81,6 +87,26 @@ function AdminLogin() {
           </div>
         )}
       </form>
+      {/* Back button fixed at bottom left */}
+      <button
+        onClick={handleBack}
+        style={{
+          position: 'fixed',
+          left: 24,
+          bottom: 24,
+          background: '#e0e0e0',
+          color: '#35409b',
+          border: 'none',
+          borderRadius: 6,
+          padding: '8px 18px',
+          fontWeight: 600,
+          cursor: 'pointer',
+          fontSize: 15,
+          zIndex: 1000
+        }}
+      >
+        ← Back
+      </button>
     </div>
   );
 }
