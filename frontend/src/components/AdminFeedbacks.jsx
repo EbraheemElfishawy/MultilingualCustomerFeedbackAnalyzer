@@ -47,6 +47,8 @@ function AdminFeedBacks() {
   return (
     <div className="admin-feedbacks-container" style={{ padding: 32, fontFamily: 'Inter, Arial, sans-serif' }}>
       <h1 style={{ fontSize: '2rem', marginBottom: 24, color: '#4545a6' }}>All Feedbacks (Admin View)</h1>
+      <p style={{ marginBottom: 24 }}>Filter feedbacks by product, language, or sentiment:</p>
+
 
       <div style={{ display: 'flex', gap: 16, marginBottom: 32 }}>
         {/* Product Filter */}
@@ -72,11 +74,11 @@ function AdminFeedBacks() {
       <table className="admin-feedbacks-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Product</th>
+            <th>Feedback ID</th>
+            <th>Product Name</th>
             <th>Language</th>
             <th>Sentiment</th>
-            <th>Text</th>
+            <th>Original Feedback</th>
           </tr>
         </thead>
         <tbody>

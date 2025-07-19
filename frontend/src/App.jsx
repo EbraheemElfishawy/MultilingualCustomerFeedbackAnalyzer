@@ -1,21 +1,20 @@
+// src/App.jsx
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Home';
 import FeedbackForm from './components/FeedbackForm';
-import FeedbackList from './components/FeedbackList';
-import AdminFeedbacks from './components/AdminFeedbacks';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import AdminFeedBacks from './components/AdminFeedbacks';
 
 function App() {
   return (
     <Router>
-      <nav style={{margin: 20}}>
-        <Link to="/">User Feedback</Link> | {' '}
-        <Link to="/admin">Admin Feedbacks</Link>
-      </nav>
       <Routes>
-        <Route path="/" element={<><FeedbackForm /></>} />
-        <Route path="/admin" element={<AdminFeedbacks />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/feedback" element={<FeedbackForm />} />
+        <Route path="/admin" element={<AdminFeedBacks />} />
       </Routes>
     </Router>
   );
 }
+
 export default App;
