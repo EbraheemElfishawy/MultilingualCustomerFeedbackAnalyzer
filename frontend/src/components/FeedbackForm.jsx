@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../index.css';
 import logo from '../assets/logo.png';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Simple CSS spinner (add this to your CSS, or use a component library)
 const spinnerStyle = {
   width: 18,
@@ -21,7 +22,7 @@ const spinnerStyle = {
   100% { transform: rotate(360deg); }
 }
 */
-
+const [loading, setLoading] = useState(false);
 function FeedbackForm() {
   const [feedback, setFeedback] = useState('');
   const [product, setProduct] = useState('Smart Watch'); // Or default to first product
@@ -51,11 +52,13 @@ function FeedbackForm() {
 
       const data = await res.json();
       setResponse(data);
+      toast.success("Feedback submitted!");
     } catch (err) {
       console.error(err);
-      setResponse({ message: 'Error submitting feedback' });
-    }
+      toast.error("Submission failed. Try again.");
+    }finally {
     setLoading(false);
+  }
   };
 
   return (
@@ -97,7 +100,11 @@ function FeedbackForm() {
           */}
         </div>
       )}
+    <button disabled={loading}>{loading ? <Spinner /> : "Submit"}</button>
+    <ToastContainer position="top-right" autoClose={1500} />
     </div>
+    
+    
   );
 }
 

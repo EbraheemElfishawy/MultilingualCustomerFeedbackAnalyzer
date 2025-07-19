@@ -41,11 +41,11 @@ run_both() {
 
 restart_all() {
   echo "====================================="
-  echo "♻️ Stopping all containers..."
+  echo "♻️  Stopping all containers..."
   docker compose down
-  echo "🔧 Rebuilding all containers..."
+  echo "🔧  Rebuilding all containers..."
   docker compose build
-  echo "🚀 Starting all containers..."
+  echo "🚀  Starting all containers..."
   docker compose up -d
 }
 

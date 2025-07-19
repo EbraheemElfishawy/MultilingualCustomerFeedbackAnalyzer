@@ -19,6 +19,9 @@ function AdminLogin() {
       setError("");
       setAttempts(0);
       navigate("/admin");
+      // On successful login:
+      localStorage.setItem("isAdmin", "true");
+
     } else {
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
