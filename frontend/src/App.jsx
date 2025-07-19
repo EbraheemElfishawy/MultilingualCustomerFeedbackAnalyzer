@@ -12,7 +12,7 @@ function App() {
         <Link to="/admin">Admin Feedbacks</Link>
       </nav>
       <Routes>
-        <Route path="/" element={<><FeedbackForm /><FeedbackList /></>} />
+        <Route path="/" element={<><FeedbackForm /></>} />
         <Route path="/admin" element={<AdminFeedbacks />} />
       </Routes>
     </Router>

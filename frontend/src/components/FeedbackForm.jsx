@@ -62,14 +62,7 @@ function FeedbackForm() {
         <button type="submit">Analyze</button>
       </form>
 
-      {response && (
-        <div className="result">
-          <h2>Analysis Result</h2>
-          <p><strong>Language:</strong> {response.language}</p>
-          <p><strong>Sentiment:</strong> {response.sentiment}</p>
-          <p><strong>Translation:</strong> {response.translated_text}</p>
-        </div>
-      )}
+
     </div>
   );
 }
