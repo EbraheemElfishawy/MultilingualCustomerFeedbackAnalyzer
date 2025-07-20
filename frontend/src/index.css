@@ -1,78 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
 body {
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-  background: #f5fcff;
-  color: #222;
   margin: 0;
-  padding: 0;
+  background-color: #f0faff;
+  font-family: 'Nunito', sans-serif;
 }
 
-.container, .admin-feedbacks-container {
-  max-width: 700px;
-  margin: 48px auto;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(80,120,180,0.06), 0 1.5px 2px rgba(120,140,160,0.03);
-  padding: 40px 32px;
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+  text-align: center;
 }
 
-h1, h2 {
-  color: #323e8c;
-  margin-bottom: 24px;
-  font-weight: 700;
-  letter-spacing: 1px;
+.logo {
+  width: 120px;
+  margin-bottom: 20px;
 }
 
-button, .btn {
-  background: #2cc9e6;
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  padding: 12px 32px;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: 0 1.5px 8px rgba(60,160,200,0.05);
-  transition: background 0.18s;
-}
-button:disabled {
-  background: #cbe6ec;
-  cursor: not-allowed;
-}
-button:hover:not(:disabled), .btn:hover:not(:disabled) {
-  background: #21a6b5;
+h1 {
+  color: #3b3b98;
 }
 
-input, select, textarea {
-  border: 1px solid #c9e7f6;
-  padding: 12px;
-  border-radius: 8px;
+form textarea {
+  width: 80%;
+  padding: 1rem;
+  border-radius: 0px;
+  border: 2px solid #ccc;
   font-size: 1rem;
-  margin-bottom: 16px;
-  width: 100%;
-  box-sizing: border-box;
-  outline: none;
-  background: #fafdff;
-  transition: border-color 0.2s;
-}
-input:focus, select:focus, textarea:focus {
-  border-color: #2cc9e6;
+  resize: none;
 }
 
-table {
+form button {
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0px;
+  background-color: #3dc1d3;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #28a0b0;
+}
+
+.result {
+  text-align: center;
+  margin-top: 2rem;
+  background: #f1f2f6;
+  padding: 1rem;
+  border-radius: 0px;
+}
+
+.admin-feedbacks-table {
   width: 100%;
-  border-collapse: collapse;
-  margin: 18px 0;
+  border: 1px solid #d2d5df;
   background: #fff;
-}
-th, td {
-  border: 1px solid #e4ecf6;
-  padding: 14px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  overflow: hidden;
+  font-family: 'Inter', Arial, sans-serif;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: #333;
   text-align: left;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 0px;
+  width: 100%;
+
 }
-th {
-  background: #f0f5ff;
-  font-weight: 600;
+
+.admin-feedbacks-table th, .admin-feedbacks-table td {
+  border-bottom: 1px solid #eee;
+  padding: 16px 12px;
+  text-align: left;
+  font-size: 1.07rem;
+  color: #222d7b;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 0px;
+  background: #f9f9f9;
+  border: 1px solid #d2d5df;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-tr:nth-child(even) {
-  background: #f7fbfd;
+
+.admin-feedbacks-table th {
+  background: #d7f0fc;
+  font-weight: 700;
+  color: #222d7b;
+  letter-spacing: 0.1em;
+  font-size: 1.1rem;
+  border-bottom: 2px solid #ddd;
+  border-radius: 0px;
+  padding: 16px 12px;
+  text-align: left;
+  transition: background-color 0.3s, color 0.3s;
+  border: 1px solid #d2d5df;
+}
+
+.admin-feedbacks-table tr:last-child td {
+  border-bottom: none;
+  border-radius: 0px;
+  border: 1px solid #d2d5df;
 }
