@@ -14,33 +14,36 @@ const Home = () => {
       justifyContent: 'center',
       height: '100vh',
       gap: 32,
-      background: '#f9fafd'
+      background: '#efeef3'
     }}>
       <img src={logo} alt="Logo" style={{ width: 150, marginBottom: 5 }} />
       <h1 style={{ 
         fontWeight: 700, 
         fontSize: '2rem', 
-        color: '#4545a6', 
+        color: '#567384', 
         textAlign: 'center', 
         marginBottom: 32, 
         fontFamily: 'Inter, Arial, sans-serif' }}
         >
-          Welcome to Customer Feedback Analyzer</h1>
+        Welcome to Valeo Customer Feedback System</h1>
       <div style={{ display: 'flex', gap: 15 }}>
         <button
           onClick={() => navigate('/feedback')}
           style={{
             padding: '18px 40px',
             fontSize: '1.1rem',
-            background: '#37c3ef',
+            background: '#2596be',
             color: '#fff',
             border: 'none',
-            borderRadius: 0,
+            borderRadius: '10px',
             fontWeight: 600,
             cursor: 'pointer',
             boxShadow: '0 4px 16px rgba(0,0,0,0.10)', 
-            fontFamily: 'Inter, Arial, sans-serif'
+            fontFamily: 'Inter, Arial, sans-serif',
+            transition: 'background-color 0.3s'
           }}
+          onMouseOver={(e) => e.target.style.background = '#87e40b'}
+          onMouseOut={(e) => e.target.style.background = '#2596be'}
         >
           Customer
         </button>
@@ -49,15 +52,18 @@ const Home = () => {
           style={{
             padding: '18px 40px',
             fontSize: '1.1rem',
-            background: '#007cf0',
+            background: '#567384',
             color: '#fff',
             border: 'none',
-            borderRadius: 0,
+            borderRadius: '10px',
             fontWeight: 600,
             cursor: 'pointer',
             boxShadow: '0 4px 16px rgba(0,0,0,0.10)', 
-            fontFamily: 'Inter, Arial, sans-serif'
+            fontFamily: 'Inter, Arial, sans-serif',
+            transition: 'background-color 0.3s'
           }}
+          onMouseOver={(e) => e.target.style.background = '#87e40b'}
+          onMouseOut={(e) => e.target.style.background = '#567384'}
         >
           Admin🔒
         </button>

@@ -38,26 +38,30 @@ function AdminLogin() {
 
   return (
     <div style={{
-      maxWidth: 400, margin: "80px auto", padding: 32, borderRadius: 12, background: "#fff",
+      maxWidth: 400, 
+      margin: "80px auto", 
+      padding: 32, 
+      borderRadius: 10, 
+      background: "#ffffff",
       boxShadow: "0 4px 24px rgba(0,0,0,0.10)"
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <h2 style={{ margin: 0, color: "#35409b" }}>Admin Login</h2>
+        <h2 style={{ margin: 0, color: "#567384" }}>Admin Login</h2>
         <button
           onClick={handleBack}
           style={{
             padding: '6px 12px',
             fontSize: '0.8rem',
-            background: '#6c757d',
+            background: '#567384',
             color: '#fff',
             border: 'none',
-            borderRadius: 0,
+            borderRadius: 10,
             cursor: 'pointer',
             fontWeight: 600,
             transition: 'background-color 0.3s'
           }}
-          onMouseOver={(e) => e.target.style.background = '#5a6268'}
-          onMouseOut={(e) => e.target.style.background = '#6c757d'}
+          onMouseOver={(e) => e.target.style.background = '#87e40b'}
+          onMouseOut={(e) => e.target.style.background = '#567384'}
         >
           ← Back
         </button>
@@ -70,7 +74,14 @@ function AdminLogin() {
             value={username}
             disabled={isLocked}
             onChange={e => setUsername(e.target.value)}
-            style={{ width: "100%", padding: 10, fontSize: 16, borderRadius: 0, border: "1px solid #bdbdbd" }}
+            style={{ 
+              width: "100%", 
+              padding: 10, 
+              fontSize: 16, 
+              borderRadius: 10, 
+              border: "2px solid #2596be",
+              background: '#efeef3'
+            }}
           />
         </div>
         <div style={{ marginBottom: 18 }}>
@@ -80,16 +91,32 @@ function AdminLogin() {
             value={password}
             disabled={isLocked}
             onChange={e => setPassword(e.target.value)}
-            style={{ width: "100%", padding: 10, fontSize: 16, borderRadius: 0, border: "1px solid #bdbdbd" }}
+            style={{ 
+              width: "100%", 
+              padding: 10, 
+              fontSize: 16, 
+              borderRadius: 10, 
+              border: "2px solid #2596be",
+              background: '#efeef3'
+            }}
           />
         </div>
         <button
           type="submit"
           disabled={isLocked}
           style={{
-            width: "100%", padding: 10, background: "#26c6da", color: "#fff", fontSize: 16,
-            border: "none", borderRadius: 0, cursor: isLocked ? "not-allowed" : "pointer"
+            width: "100%", 
+            padding: 10, 
+            background: "#2596be", 
+            color: "#fff", 
+            fontSize: 16,
+            border: "none", 
+            borderRadius: 10, 
+            cursor: isLocked ? "not-allowed" : "pointer",
+            transition: 'background-color 0.3s'
           }}
+          onMouseOver={(e) => !isLocked && (e.target.style.background = '#87e40b')}
+          onMouseOut={(e) => !isLocked && (e.target.style.background = '#2596be')}
         >
           Login
         </button>

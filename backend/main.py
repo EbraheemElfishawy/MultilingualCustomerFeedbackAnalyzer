@@ -28,6 +28,7 @@ The previous line is a feedback from a customer about a product. analyze this cu
 
 Return JSON only in a dict format to be handled by python in this format:
 if the feedback is not a feedback like Good morning or any other sentence or unknown text, return NA for all fields.
+return the whole name of a language, not a code like 'en' or 'fr'.
 
 [
     "language": "...",
@@ -178,4 +179,10 @@ async def get_feedbacks(product: str = '', language: str = '', sentiment: str = 
 
 @app.get("/api/products")
 def get_products():
-    return ["Smart Watch", "AI Assistant", "Mobile App", "Laptop", "Headphones"]
+    return [
+        "Valeo Vision System",
+        "Valeo Parking Assistant", 
+        "Valeo Climate Control",
+        "Valeo Engine Management",
+        "Valeo Safety Systems"
+    ]
