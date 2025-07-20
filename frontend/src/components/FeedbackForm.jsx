@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../index.css';
 import logo from '../assets/logo.png';
 
@@ -27,6 +28,8 @@ function FeedbackForm() {
   const [product, setProduct] = useState('Smart Watch'); // Or default to first product
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   // Example products list (replace with real list if you fetch from backend)
   const products = [
@@ -58,10 +61,36 @@ function FeedbackForm() {
     setLoading(false);
   };
 
+  const handleBack = () => {
+    navigate('/');
+  };
+
   return (
     <div className="container">
-      <img src={logo} alt="Logo" className="logo" />
-      <h1>Customer Feedback Analyzer</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <img src={logo} alt="Logo" className="logo" />
+          <h1 style={{ margin: 0 }}>Customer Feedback Analyzer</h1>
+        </div>
+        <button
+          onClick={handleBack}
+          style={{
+            padding: '8px 16px',
+            fontSize: '0.9rem',
+            background: '#6c757d',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 0,
+            cursor: 'pointer',
+            fontWeight: 600,
+            transition: 'background-color 0.3s'
+          }}
+          onMouseOver={(e) => e.target.style.background = '#5a6268'}
+          onMouseOut={(e) => e.target.style.background = '#6c757d'}
+        >
+          ← Back to Home
+        </button>
+      </div>
 
       <form onSubmit={handleSubmit} style={{ marginBottom: 24 }}>
         <div style={{ marginBottom: 12 }}>

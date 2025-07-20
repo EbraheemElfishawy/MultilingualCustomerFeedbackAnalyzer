@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const languageOptions = [
   { label: 'All Languages', value: '' },
@@ -23,6 +24,8 @@ function AdminFeedBacks() {
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [selectedSentiment, setSelectedSentiment] = useState('');
 
+  const navigate = useNavigate();
+
   // Fetch product list
   useEffect(() => {
     fetch('/api/products')
@@ -44,9 +47,34 @@ function AdminFeedBacks() {
       .then(data => setFeedbacks(data));
   }, [selectedProduct, selectedLanguage, selectedSentiment]);
 
+  const handleLogout = () => {
+    navigate('/');
+  };
+
   return (
     <div className="admin-feedbacks-container" style={{ padding: 32, fontFamily: 'Inter, Arial, sans-serif' }}>
-      <h1 style={{ fontSize: '2rem', marginBottom: 24, color: '#4545a6' }}>All Feedbacks (Admin View)</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+        <h1 style={{ fontSize: '2rem', color: '#4545a6', margin: 0 }}>All Feedbacks (Admin View)</h1>
+        <button
+          onClick={handleLogout}
+          style={{
+            padding: '10px 20px',
+            fontSize: '1rem',
+            background: '#dc3545',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 0,
+            cursor: 'pointer',
+            fontWeight: 600,
+            transition: 'background-color 0.3s'
+          }}
+          onMouseOver={(e) => e.target.style.background = '#c82333'}
+          onMouseOut={(e) => e.target.style.background = '#dc3545'}
+        >
+          🚪 Logout
+        </button>
+      </div>
+      
       <p style={{ marginBottom: 24 }}>Filter feedbacks by product, language, or sentiment:</p>
 
 

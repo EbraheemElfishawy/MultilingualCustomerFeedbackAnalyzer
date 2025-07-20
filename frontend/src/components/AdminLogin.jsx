@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "admin"; // ⚠️ For demo only. Move to backend for production.
+const ADMIN_USERNAME = "";
+const ADMIN_PASSWORD = ""; // ⚠️ For demo only. Move to backend for production.
 
 function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -30,6 +30,10 @@ function AdminLogin() {
     }
   };
 
+  const handleBack = () => {
+    navigate('/');
+  };
+
   const isLocked = attempts >= 3;
 
   return (
@@ -37,7 +41,27 @@ function AdminLogin() {
       maxWidth: 400, margin: "80px auto", padding: 32, borderRadius: 12, background: "#fff",
       boxShadow: "0 4px 24px rgba(0,0,0,0.10)"
     }}>
-      <h2 style={{ marginBottom: 24, color: "#35409b" }}>Admin Login</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+        <h2 style={{ margin: 0, color: "#35409b" }}>Admin Login</h2>
+        <button
+          onClick={handleBack}
+          style={{
+            padding: '6px 12px',
+            fontSize: '0.8rem',
+            background: '#6c757d',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 0,
+            cursor: 'pointer',
+            fontWeight: 600,
+            transition: 'background-color 0.3s'
+          }}
+          onMouseOver={(e) => e.target.style.background = '#5a6268'}
+          onMouseOut={(e) => e.target.style.background = '#6c757d'}
+        >
+          ← Back
+        </button>
+      </div>
       <form onSubmit={handleLogin}>
         <div style={{ marginBottom: 18 }}>
           <input
